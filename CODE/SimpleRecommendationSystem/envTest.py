@@ -1,13 +1,4 @@
-'''
-Author: Jeffrey Zhu 1624410543@qq.com
-Date: 2025-03-06 23:30:33
-LastEditors: Jeffrey Zhu 1624410543@qq.com
-LastEditTime: 2025-03-06 23:30:47
-FilePath: \SimpleRecommendationSystem\envTest.py
-Description: File Description Here...
 
-Copyright (c) 2025 by JeffreyZhu, All Rights Reserved. 
-'''
 import torch
 
 # 检查PyTorch和CUDA信息
