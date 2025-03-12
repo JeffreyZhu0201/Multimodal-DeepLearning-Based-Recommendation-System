@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
+import csv
 
 # 数据预处理
 ratings = pd.read_csv('ml-latest/ratings.csv')
@@ -28,7 +29,6 @@ train_df, test_df = train_test_split(ratings, test_size=0.2, random_state=42)
 train_df, val_df = train_test_split(train_df, test_size=0.1, random_state=42)
 
 
-
 # 定义Dataset类
 class MovieLensDataset(Dataset):
     def __init__(self, users, movies, ratings):
@@ -47,7 +47,8 @@ class MovieLensDataset(Dataset):
         )
 
 # 创建数据加载器
-batch_size = 512
+batch_size = 2048
+
 train_dataset = MovieLensDataset(train_df['user_idx'].values, 
                                train_df['movie_idx'].values,
                                train_df['rating'].values)
@@ -66,7 +67,7 @@ print("数据加载成功")
 
 # 定义推荐模型
 class Recommender(nn.Module):
-    def __init__(self, num_users, num_movies, embedding_dim=64, hidden_dim=128):
+    def __init__(self, num_users, num_movies, embedding_dim=128, hidden_dim=256):
         super().__init__()
         self.user_emb = nn.Embedding(num_users, embedding_dim)
         self.movie_emb = nn.Embedding(num_movies, embedding_dim)
@@ -97,11 +98,12 @@ n_movies = len(movie_ids)
 
 model = Recommender(n_users, n_movies).to(device)
 criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=0.01)
 
 # 训练循环
-epochs = 10
+epochs = 20
 best_val_loss = float('inf')
+loss_array = []
 
 for epoch in range(epochs):
     # 训练阶段
@@ -112,8 +114,10 @@ for epoch in range(epochs):
         optimizer.zero_grad()
         pred = model(user, movie)
         loss = criterion(pred, rating)
+
         loss.backward()
         optimizer.step()
+        
         train_loss += loss.item() * user.size(0)
     train_loss /= len(train_loader.dataset)
     
@@ -127,6 +131,8 @@ for epoch in range(epochs):
             val_loss += criterion(pred, rating).item() * user.size(0)
     val_loss /= len(val_loader.dataset)
     
+    loss_array.append([train_loss,val_loss])
+
     print(f'Epoch {epoch+1}:')
     print(f'Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f}')
     
@@ -134,6 +140,12 @@ for epoch in range(epochs):
     if val_loss < best_val_loss:
         best_val_loss = val_loss
         torch.save(model.state_dict(), 'best_model.pth')
+
+csv_file_path = 'loss_data.csv'
+
+with open(csv_file_path, 'w', newline='') as csvfile:
+    csv_writer = csv.writer(csvfile)
+    csv_writer.writerows(loss_array)
 
 print("训练完成，开始测试阶段")
 
@@ -147,5 +159,7 @@ with torch.no_grad():
         pred = model(user, movie)
         test_loss += criterion(pred, rating).item() * user.size(0)
 test_loss /= len(test_loader.dataset)
+
+print(loss_array)
 print(f'Test Loss: {test_loss:.4f}')
 print(f'Test RMSE: {np.sqrt(test_loss * 5.0**2):.4f}')  # 反归一化后计算RMSE

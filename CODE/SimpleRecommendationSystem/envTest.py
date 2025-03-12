@@ -1,3 +1,13 @@
+'''
+Author: Jeffrey Zhu 1624410543@qq.com
+Date: 2025-03-06 23:30:33
+LastEditors: Jeffrey Zhu 1624410543@qq.com
+LastEditTime: 2025-03-08 22:13:14
+FilePath: \SimpleRecommendationSystem\envTest.py
+Description: File Description Here...
+
+Copyright (c) 2025 by JeffreyZhu, All Rights Reserved. 
+'''
 
 import torch
 
@@ -7,6 +17,7 @@ print("PyTorch Environment Summary")
 print("="*40)
 print(f"PyTorch版本: {torch.__version__}")
 print(f"CUDA可用: {torch.cuda.is_available()}")
+print(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
 if torch.cuda.is_available():
     print(f"CUDA版本: {torch.version.cuda}")
     print(f"GPU数量: {torch.cuda.device_count()}")
