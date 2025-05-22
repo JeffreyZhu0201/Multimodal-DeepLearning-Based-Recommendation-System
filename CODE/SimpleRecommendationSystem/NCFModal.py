@@ -9,7 +9,8 @@ from tqdm import tqdm
 import csv
 
 # 数据预处理
-ratings = pd.read_csv('ml-latest/ratings.csv')
+ratings = pd.read_csv('../Dataset/ml-32m/ratings.csv')
+csv_file_path = 'loss_data.csv'
 print("数据读取成功")
 # 创建用户和电影映射字典
 user_ids = ratings['userId'].unique()
@@ -141,11 +142,10 @@ for epoch in range(epochs):
         best_val_loss = val_loss
         torch.save(model.state_dict(), 'best_model.pth')
 
-csv_file_path = 'loss_data.csv'
-
-with open(csv_file_path, 'w', newline='') as csvfile:
-    csv_writer = csv.writer(csvfile)
-    csv_writer.writerows(loss_array)
+    with open(csv_file_path, 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        csv_writer.writerow(['train_loss', 'val_loss'])  # 添加表头
+        csv_writer.writerows(loss_array)
 
 print("训练完成，开始测试阶段")
 
@@ -159,6 +159,13 @@ with torch.no_grad():
         pred = model(user, movie)
         test_loss += criterion(pred, rating).item() * user.size(0)
 test_loss /= len(test_loader.dataset)
+
+test_loss_csv = 'test_loss.csv'
+
+with open(test_loss_csv, 'w', newline='') as csvfile:
+    csv_writer = csv.writer(csvfile)
+    csv_writer.writerow(['test_loss'])  # 添加表头
+    csv_writer.writerow([test_loss])  # 写入测试损失
 
 print(loss_array)
 print(f'Test Loss: {test_loss:.4f}')
