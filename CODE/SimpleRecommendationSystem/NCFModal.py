@@ -68,7 +68,7 @@ print("数据加载成功")
 
 # 定义推荐模型
 class Recommender(nn.Module):
-    def __init__(self, num_users, num_movies, embedding_dim=128, hidden_dim=256):
+    def __init__(self, num_users, num_movies, embedding_dim=32, hidden_dim=64):
         super().__init__()
         self.user_emb = nn.Embedding(num_users, embedding_dim)
         self.movie_emb = nn.Embedding(num_movies, embedding_dim)
