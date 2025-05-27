@@ -11,10 +11,19 @@ import matplotlib.pyplot as plt
 '''
 import matplotlib.pyplot as plt
 import  csv
+import os
+# 获取当前脚本所在目录
+script_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(script_dir, 'loss_data.csv')
 
-# Sample data (replace with your actual data)
-train_loss = [0.0269, 0.0266,0.0263,0.0260, 0.0258]
-test_loss = [0.0278, 0.0277, 0.0275, 0.0273, 0.0272]
+# Read train_loss and test_loss from loss_data.csv
+train_loss = []
+val_loss = []
+with open(csv_path, 'r', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        train_loss.append(float(row['train_loss']))
+        val_loss.append(float(row['val_loss']))
 
 # Create epochs array
 epochs = range(1, len(train_loss) + 1)
@@ -25,9 +34,8 @@ plt.figure(figsize=(10,6))
 plt.plot(epochs,[tl* 5.0**2 for tl in train_loss],'p-',label="Train RMSE")
 
 # plt.plot(epochs, test_loss, 'r-',label='val Loss')
-plt.plot(epochs,[tl* 5.0**2 for tl in test_loss],'p-',label="Validating RMSE")
+plt.plot(epochs,[tl* 5.0**2 for tl in val_loss],'p-',label="Validating RMSE")
 
-plt.plot(epochs,[0.8255 for i in range(5)],'p-',label="Testing RMSE")
 
 # Customize the plot
 plt.title('Training and Validating Loss Over Epochs')
