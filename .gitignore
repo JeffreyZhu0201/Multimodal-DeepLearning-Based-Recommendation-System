@@ -1,3 +1,4 @@
 *.csv
 *.pth
-ml-32m
+ml-1m.*
+dataset/
