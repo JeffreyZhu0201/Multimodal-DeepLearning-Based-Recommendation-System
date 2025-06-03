@@ -14,8 +14,5 @@ def testProcess(model,test_loader,device,criterion):
             pred = model(user, movie,bert_vec)
             test_loss += criterion(pred, rating).item() * user.size(0)
     test_loss /= len(test_loader.dataset)
-
-    print(test_loss)
     
     print(f'Test Loss: {test_loss:.4f}')
-    print(f'Test RMSE: {np.sqrt(test_loss * 5.0**2):.4f}')  # 反归一化后计算RMSE

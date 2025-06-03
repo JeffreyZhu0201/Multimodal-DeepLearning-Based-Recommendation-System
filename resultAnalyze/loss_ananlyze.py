@@ -6,7 +6,7 @@ import pandas as pd
 # 直接使用当前工作目录
 
 def main():
-    csv_path = 'resultAnalyze/loss_data.csv'
+    csv_path = 'resultAnalyze/loss_data_bert.csv'
 
     # Read train_loss and test_loss from loss_data.csv
     df = pd.read_csv(csv_path)
@@ -17,18 +17,17 @@ def main():
     # Create the plot
     plt.figure(figsize=(8,6))
     # plt.plot(epochs, train_loss, 'b-', label='Training Loss')
-    plt.plot(epochs,[tl* 5.0**2 for tl in train_loss],'p-',label="Train RMSE")
+    plt.plot(epochs,[tl for tl in train_loss],'p-',label="Train Loss")
 
     # plt.plot(epochs, test_loss, 'r-',label='val Loss')
-    plt.plot(epochs,[tl* 5.0**2 for tl in val_loss],'p-',label="Validating RMSE")
-    test_rmse = y=0.0341 * 5.0**2
-    plt.axhline(test_rmse, color='g', linestyle='--', label=f'Test Loss: {test_rmse:.4f}')
+    plt.plot(epochs,[tl for tl in val_loss],'p-',label="Validating Loss")
+    plt.axhline(0.0337, color='g', linestyle='--', label=f'Test Loss: 0.0337')
 
     # Customize the plot
     plt.title('Training and Validating Loss Over Epochs')
     plt.xlabel('Epochs')
     # plt.ylabel('Loss')
-    plt.ylabel(ylabel='RMSE')
+    plt.ylabel(ylabel='Loss')
     plt.grid(True)
     plt.legend()
 
