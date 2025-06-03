@@ -21,7 +21,8 @@ def main():
 
     # plt.plot(epochs, test_loss, 'r-',label='val Loss')
     plt.plot(epochs,[tl* 5.0**2 for tl in val_loss],'p-',label="Validating RMSE")
-    plt.axhline(y=0.0341 * 5.0**2, color='g', linestyle='--', label='Test Loss: 0.0341')
+    test_rmse = y=0.0341 * 5.0**2
+    plt.axhline(test_rmse, color='g', linestyle='--', label=f'Test Loss: {test_rmse:.4f}')
 
     # Customize the plot
     plt.title('Training and Validating Loss Over Epochs')
