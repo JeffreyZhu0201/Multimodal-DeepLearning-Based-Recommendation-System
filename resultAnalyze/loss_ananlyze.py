@@ -17,15 +17,15 @@ def main():
     # Create the plot
     plt.figure(figsize=(8,6))
     # plt.plot(epochs, train_loss, 'b-', label='Training Loss')
-    plt.plot(epochs,[tl* 5.0**2 for tl in train_loss],'p-',label="Train RMSE")
+    plt.plot(epochs,[tl for tl in train_loss],'p-',label="Train Loss")
 
     # plt.plot(epochs, test_loss, 'r-',label='val Loss')
-    plt.plot(epochs,[tl* 5.0**2 for tl in val_loss],'p-',label="Validating RMSE")
+    plt.plot(epochs,[tl for tl in val_loss],'p-',label="Validating Loss")
     # Add a horizontal line for Test Loss
-    test_loss_value = 0.0341 * 5.0**2
+    test_loss_value = 0.0341
     # Test Loss: 0.0341
     # Test RMSE: 0.9234
-    plt.axhline(y=test_loss_value, color='g', linestyle='--', label='Test RMSE: {:.4f}'.format(test_loss_value))
+    plt.axhline(y=test_loss_value, color='g', linestyle='--', label='Test Loss: {:.4f}'.format(test_loss_value))
 
     # Customize the plot
     plt.title('Training and Validating Loss Over Epochs')
