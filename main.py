@@ -22,7 +22,7 @@ def main():
     embedding_dim = 32
     hidden_dim = 32
     learning_rate = 0.001
-    epochs = 5
+    epochs = 50
     best_val_loss = float('inf')
     criterion = nn.MSELoss()
     loss_path = 'resultAnalyze/loss_data.csv'
@@ -41,19 +41,19 @@ def main():
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    # for epoch in range(epochs):
+    for epoch in range(epochs):
 
-    #     train_loss = trainProcess(model,train_loader,device,optimizer,criterion,epoch)
-    #     val_loss = evalProcess(model,val_loader,device,criterion,epoch)
+        train_loss = trainProcess(model,train_loader,device,optimizer,criterion,epoch)
+        val_loss = evalProcess(model,val_loader,device,criterion,epoch)
 
-    #     # 保存最佳模型
-    #     if val_loss < best_val_loss:
-    #         best_val_loss = val_loss
-    #         if not os.path.exists('best_model'):
-    #             os.makedirs('best_model')
-    #         torch.save(model.state_dict(), best_model_path)
+        # 保存最佳模型
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            if not os.path.exists('best_model'):
+                os.makedirs('best_model')
+            torch.save(model.state_dict(), best_model_path)
 
-    #     loss_writter(epoch,train_loss,val_loss,loss_path)
+        loss_writter(epoch,train_loss,val_loss,loss_path)
 
     testProcess(model,test_loader,device,criterion)
 
