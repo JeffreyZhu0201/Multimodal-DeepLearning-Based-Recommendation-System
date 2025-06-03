@@ -1,11 +1,11 @@
 
 import torch
-import tqdm
+from tqdm import tqdm
 import csv
 import numpy as np
 
 def testProcess(model,test_loader,device,criterion):
-    model.load_state_dict(torch.load('best_model.pth'))
+    model.load_state_dict(torch.load('best_model/best_model.pth'))
     model.eval()
     test_loss = 0.0
     with torch.no_grad():

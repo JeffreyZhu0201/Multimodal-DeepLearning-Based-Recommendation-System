@@ -1,6 +1,6 @@
 
 import torch
-import tqdm
+from tqdm import tqdm
 
 def evalProcess(model,val_loader,device,criterion,epoch):
     # 验证阶段

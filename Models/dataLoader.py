@@ -2,12 +2,15 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from Dataset import MovieLensDataset
+from Models.Dataset import MovieLensDataset
 from torch.utils.data import Dataset, DataLoader
 
 def loadDataset():
     # 数据预处理
-    ratings = pd.read_csv('../dataset/ml-1m/ratings.csv')
+    # 读取ratings.dat
+    ratings = pd.read_csv('dataset/ml-1m/ratings.dat', sep='::', engine='python',
+                    names=['userId', 'movieId', 'rating', 'timestamp'])
+
     # csv_file_path = 'loss_data.csv'
     print("数据读取成功")
     # 创建用户和电影映射字典,将稀疏数据稠密化
@@ -24,13 +27,12 @@ def loadDataset():
     return ratings,user_to_idx,movie_to_idx,user_ids,movie_ids
 
 
-
-def transferToDataLoader(batch_size):
+def transferToDataLoader(batch_size,train_slide,val_slide):
     # 数据集划分
     ratings,user_to_idx,movie_to_idx,user_ids,movie_ids = loadDataset()
 
-    train_df, test_df = train_test_split(ratings, test_size=0.2, random_state=42)
-    train_df, val_df = train_test_split(train_df, test_size=0.1, random_state=42)
+    train_df, test_df = train_test_split(ratings, test_size=1-train_slide-val_slide, random_state=42)
+    train_df, val_df = train_test_split(train_df, test_size=1-(val_slide)/(train_slide+val_slide), random_state=42)
 
     # 创建数据加载器
 

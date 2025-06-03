@@ -2,3 +2,4 @@
 *.pth
 ml-1m.*
 dataset/
+__pycache__/
