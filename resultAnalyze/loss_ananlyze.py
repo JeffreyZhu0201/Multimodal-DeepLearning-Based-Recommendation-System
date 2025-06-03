@@ -6,7 +6,7 @@ import pandas as pd
 # 直接使用当前工作目录
 
 def main():
-    csv_path = 'resultAnalyze/loss_data.csv'
+    csv_path = 'resultAnalyze/loss_data_main.csv'
 
     # Read train_loss and test_loss from loss_data.csv
     df = pd.read_csv(csv_path)
@@ -23,6 +23,8 @@ def main():
     plt.plot(epochs,[tl* 5.0**2 for tl in val_loss],'p-',label="Validating RMSE")
     # Add a horizontal line for Test Loss
     test_loss_value = 0.0341 * 5.0**2
+    # Test Loss: 0.0341
+    # Test RMSE: 0.9234
     plt.axhline(y=test_loss_value, color='g', linestyle='--', label='Test RMSE: {:.4f}'.format(test_loss_value))
 
     # Customize the plot
