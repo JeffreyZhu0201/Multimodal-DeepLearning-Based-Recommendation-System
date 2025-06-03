@@ -3,3 +3,4 @@
 ml-1m.*
 dataset/
 __pycache__/
+best_model
