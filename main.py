@@ -19,7 +19,7 @@ import numpy as np
 def main():
     batch_size = 256
     embedding_dim = 32
-    hidden_dim = 32
+    hidden_dim = 128
     learning_rate = 0.001
     epochs = 50
     best_val_loss = float('inf')
