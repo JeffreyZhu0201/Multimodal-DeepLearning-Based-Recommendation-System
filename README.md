@@ -99,6 +99,27 @@ python resultAnalyze/loss_ananlyze.py
 - Training and validation loss curves are visualized for performance monitoring.
 - The system is extensible for further feature engineering and model improvements.
 
+**Loss Curve Example:**
+
+![Loss Curve Example](resultAnalyze/Figure_1.png)
+
+---
+
+---
+## 📝 Example: Generate Personalized Recommendations
+
+After training, you can generate a personalized recommendation list for a user.  
+For example, to get the top 10 recommended movies for user 1, run:
+
+```bash
+python generate_recommendation.py
+```
+
+**Example Output:**
+```
+Top 10 recommended movie IDs for user 1: [3680, 811, 3338, 787, 318, 527, 2609, 3517, 3236, 922]
+```
+
 ---
 
 ## 🏷️ Key Features
