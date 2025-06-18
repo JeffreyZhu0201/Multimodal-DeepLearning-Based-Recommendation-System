@@ -24,11 +24,8 @@ def main():
     epochs = 50
     best_val_loss = float('inf')
     criterion = nn.MSELoss()
-<<<<<<< HEAD
+
     loss_path = 'resultAnalyze/loss_data_main.csv'
-=======
-    loss_path = 'resultAnalyze/loss_data_bert.csv'
->>>>>>> BERT
     best_model_path = 'best_model/best_model.pth'
     bert_dim = 768
     # Load Device
